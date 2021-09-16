@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import Cookies from 'universal-cookie';
 
-const Login = () => {
-    const [apiKey, setApiKey] = useState("");
+const Login = ({changeShow}) => {
+    const cookies = new Cookies();
 
     function loginFunction() {
       window['JF'].login(
         function success(){
-            setApiKey(window['JF'].getAPIKey());
-            console.log(window['JF'].getAPIKey());
-            console.log(apiKey);
+            cookies.set('apiKey', window['JF'].getAPIKey());
+            changeShow("login",window['JF'].getAPIKey());
         },
         function error(){
           window.alert("Could not authorize user");
