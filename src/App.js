@@ -6,8 +6,7 @@ import Cookies from "universal-cookie";
 
 function App() {
   const [show, setShow] = useState("login");
-  const cookies = new Cookies();
-  const [apiKey,setApiKey] = useState(cookies.get("apiKey"));
+  const [apiKey,setApiKey] = useState(localStorage.getItem("apiKey"));
 
   useEffect(() => {
     if (apiKey) {

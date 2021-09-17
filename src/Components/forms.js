@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Cookies from 'universal-cookie';
 
 const Forms = () => {
 
-    const cookies = new Cookies();
-    const apiKey = cookies.get("apiKey");
+    const apiKey = localStorage.getItem("apiKey");
 
     return (
         <>
