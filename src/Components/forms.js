@@ -26,6 +26,29 @@ const Forms = () => {
       });
   }, []);
 
+  function PutEncryptedProperty(formId) {
+    const putFormData = {
+      method: "put",
+      url: "https://api.jotform.com/form/"+formId+"/properties?apiKey=" + apiKey,
+      data: {
+        "properties":
+          {
+            "isEncrypted": "Yes"
+          }
+      },
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      },
+    };
+    axios(putFormData)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   function PostFunction() {
     const postFormData = {
       method: "post",
@@ -51,11 +74,7 @@ const Forms = () => {
     };
     axios(postFormData)
       .then((resp) => {
-        console.log(resp);
-        console.log(resp.data.content.id);
-        setFormId((prevState) => {
-          return resp.data.content.id;
-        });
+        PutEncryptedProperty(resp.data.content.id);
       })
       .catch((error) => {
         console.log(error);
