@@ -4,52 +4,43 @@ import qs from 'qs';
 
 const Forms = () => {
     const apiKey = localStorage.getItem("apiKey");;
-    const [formId, setFormId] = useState(0);
-
+    const [formId, setFormId] = useState('');
+    
     useEffect(() => {  
-      const postFormData = {
-        method: "post",
-        url: "https://api.jotform.com/user/forms?apiKey=" + apiKey,
-        data: qs.stringify({
-          "questions[1][type]": "control_textbox",
-          "questions[1][text]": "usrnm",
-          "questions[1][order]": 0,
-          "questions[1][name]": "usrnm",
-          "properties[title]": "Jotform_Password_Manager",
-        }),
-        headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-        },
-      };
-      axios(postFormData)
+        const postFormData = {
+            method: "post",
+            url: "https://api.jotform.com/user/forms?apiKey=" + apiKey,
+            data: qs.stringify({
+                "questions[1][type]": "control_textbox",
+                "questions[1][text]": "usrnm",
+                "questions[1][order]": 0,
+                "questions[1][name]": "usrnm",
+                "questions[2][type]": "control_textbox",
+                "questions[2][text]": "psswrd",
+                "questions[2][order]": 1,
+                "questions[2][name]": "psswrd",
+                "questions[3][type]": "control_textbox",
+                "questions[3][text]": "url",
+                "questions[3][order]": 2,
+                "questions[3][name]": "url",
+                "properties[title]": "Jotform_Password_Manager",
+            }),
+            headers: {
+              "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+            },
+        };
+        axios(postFormData)
         .then((resp) => {
-          console.log(resp);
-          console.log(resp.data.content.id);
-          setFormId(resp.data.content.id);
+            console.log(resp);
+            console.log(resp.data.content.id);
+            setFormId((prevState) => {return resp.data.content.id});
         })
         .catch((error) => {
-          console.log(error);
+            console.log(error);
         });
-/*
-      const putFormData = {
-        method: "put",
-        url: "https://api.jotform.com/form/" + formId + "/questions?apiKey=" + apiKey,
-        data: qs.stringify({
-          "questions":{"2":{"type":"control_textbox","text":"psswrd","order":"2","name":"psswrd"},"3":{"type":"control_textbox","text":"url","order":"3","name":"url"}}
-        }),
-        headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-        },
-      };
-      axios(putFormData)
-        .then((resp) => {
-          console.log(resp)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-*/
     },[]);
+
+
 
     return (
         <>
@@ -60,5 +51,4 @@ const Forms = () => {
 }
 
 export default Forms;
-
 

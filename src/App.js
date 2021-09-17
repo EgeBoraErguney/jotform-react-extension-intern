@@ -2,7 +2,6 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import Login from "./Components/login";
 import Forms from "./Components/forms";
-import Cookies from "universal-cookie";
 
 function App() {
   const [show, setShow] = useState("login");
