@@ -64,7 +64,7 @@ const Forms = () => {
       method: "post",
       url: "https://api.jotform.com/user/forms?apiKey=" + apiKey,
       data: qs.stringify({
-        "submission[1][type]": "control_textbox",
+        "questions[1][type]": "control_textbox",
         "questions[1][text]": "usrnm",
         "questions[1][order]": 0,
         "questions[1][name]": "usrnm",
@@ -97,7 +97,28 @@ const Forms = () => {
     if (userName && password && url) {
       const account = {userName, password, url};
       console.log(account); 
-
+      const addSubmission = {
+        method: "post",
+        url: "https://api.jotform.com/form/" + formId + "/submissions?apiKey=" + apiKey,
+        data: qs.stringify({
+          "submission[1]": userName,
+          "submission[2]": password,
+          "submission[3]": url,
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+      };
+      axios(addSubmission)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      setUserName("");
+      setPassword("");
+      setUrl("");
     } else {
       console.log('empty values');
     }
