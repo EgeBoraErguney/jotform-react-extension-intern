@@ -22,6 +22,10 @@ const Forms = () => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
+    GetFormsAtTheBeginning();
+  }, []);
+
+  function GetFormsAtTheBeginning() {
     const getFormData = {
       method: "get",
       url: "https://api.jotform.com/user/forms?apiKey=" + apiKey,
@@ -45,21 +49,19 @@ const Forms = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }
 
-  /*
-  function PutEncryptedProperty(formId) {
+  function PutAfterPostFunction(formId) {
     const putFormData = {
       method: "put",
-      url:
-        "https://api.jotform.com/form/" +
-        formId +
-        "/properties?apiKey=" +
-        apiKey,
+      url: "https://api.jotform.com/form/"+formId+"/questions?apiKey=" + apiKey,
       data: {
-        properties: {
-          isEncrypted: "Yes",
-        },
+        "questions":
+        {
+          "0":{"type":"control_textbox","text":"usrnm","order":"0","name":"usrnm"},
+          "1":{"type":"control_textbox","text":"pssword","order":"1","name":"pssword"},
+          "2":{"type":"control_textbox","text":"url","order":"2","name":"url"}
+        }
       },
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -73,12 +75,12 @@ const Forms = () => {
         console.log(error);
       });
   }
-*/
   function PostFunction() {
     const postFormData = {
       method: "post",
       url: "https://api.jotform.com/user/forms?apiKey=" + apiKey,
       data: qs.stringify({
+        /*
         "questions[0][type]": "control_textbox",
         "questions[0][text]": "usrnm",
         "questions[0][order]": 0,
@@ -91,6 +93,7 @@ const Forms = () => {
         "questions[2][text]": "url",
         "questions[2][order]": 2,
         "questions[2][name]": "url",
+        */
         "properties[title]": "Jotform_Password_Manager",
       }),
       headers: {
@@ -100,6 +103,7 @@ const Forms = () => {
     axios(postFormData)
       .then((resp) => {
         setFormId(resp.data.content.id);
+        PutAfterPostFunction(resp.data.content.id);
         //PutEncryptedProperty(resp.data.content.id);
       })
       .catch((error) => {
@@ -197,7 +201,7 @@ const Forms = () => {
         />
       </Typography>
 
-      <Button  variant="contained" onClick={handleSubmit}>
+      <Button variant="contained" onClick={handleSubmit}>
         Add
       </Button>
       <Typography mt={2}>
