@@ -5,6 +5,9 @@ import qs from "qs";
 const Forms = () => {
   const apiKey = localStorage.getItem("apiKey");
   const [formId, setFormId] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
     const getFormData = {
@@ -15,21 +18,21 @@ const Forms = () => {
       .then((resp) => {
         if (
           resp.data.content.filter(
-            (obj) => obj.title == "Jotform_Password_Manager"
+            (obj) => obj.title === "Jotform_Password_Manager"
           ).length < 1
         ) {
           PostFunction();
         } else {
           setFormId(resp.data.content.filter(
-            (obj) => obj.title == "Jotform_Password_Manager"
+            (obj) => obj.title === "Jotform_Password_Manager"
           )[0].id);
         }
       })
       .catch((error) => {
         console.log(error);
-      });
+      });  
   }, []);
-
+/*
   function PutEncryptedProperty(formId) {
     const putFormData = {
       method: "put",
@@ -55,13 +58,13 @@ const Forms = () => {
         console.log(error);
       });
   }
-
+*/
   function PostFunction() {
     const postFormData = {
       method: "post",
       url: "https://api.jotform.com/user/forms?apiKey=" + apiKey,
       data: qs.stringify({
-        "questions[1][type]": "control_textbox",
+        "submission[1][type]": "control_textbox",
         "questions[1][text]": "usrnm",
         "questions[1][order]": 0,
         "questions[1][name]": "usrnm",
@@ -82,17 +85,60 @@ const Forms = () => {
     axios(postFormData)
       .then((resp) => {
         setFormId(resp.data.content.id);
-        PutEncryptedProperty(resp.data.content.id);
+        //PutEncryptedProperty(resp.data.content.id);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userName && password && url) {
+      const account = {userName, password, url};
+      console.log(account); 
+
+    } else {
+      console.log('empty values');
+    }
+  }
+
   return (
     <>
-      <h1>Welcome</h1>
-      {apiKey}
+      <h1>Please fill this form to store your password in secure way</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor='userName'>username : </label>
+          <input
+            type='text'
+            id='userName'
+            name='userName'
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor='password'>password : </label>
+          <input
+            type='password'
+            id='password'
+            name='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor='url'>url : </label>
+          <input
+            type='text'
+            id='url'
+            name='url'
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
+        </div>
+          <button type='submit'>add </button>
+      </form>
     </>
   );
 };
