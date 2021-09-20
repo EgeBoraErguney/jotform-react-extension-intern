@@ -60,15 +60,15 @@ const Login = ({ changeShow }) => {
   
   return (
     <>
-      <div style = {{backgroundImage:"url(" + background + ")"}}>
+      <Box  pt={10} pb={10} sx = {{backgroundImage:"url(" + background + ")"}}>
         <Paper
           sx={{
-            width: "30%",
-            margin: "auto",
+            width: "60%",
+            margin: "20px auto",
           }}
           elevation={3}
         >
-          <Typography variant="h4" pt={6} mt={30}>
+          <Typography variant="h5" pt={4} >
             Jotform Password Manager
           </Typography>
           <Typography variant="h6" pt={4} mt={2}>
@@ -99,7 +99,7 @@ const Login = ({ changeShow }) => {
             </Button>
           </Typography>
         </Paper>
-      </div>
+      </Box>
     </>
   );
 };
