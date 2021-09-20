@@ -152,7 +152,6 @@ const Forms = () => {
       axios(addSubmission)
         .then((resp) => {
           console.log(resp);
-          GetSubmissions();
         })
         .catch((error) => {
           console.log(error);
