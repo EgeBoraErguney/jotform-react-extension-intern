@@ -44,6 +44,11 @@ const Forms = () => {
               (obj) => obj.title === "Jotform_Password_Manager"
             )[0].id
           );
+          GetSubmissions(
+            resp.data.content.filter(
+              (obj) => obj.title === "Jotform_Password_Manager"
+            )[0].id
+          );
         }
       })
       .catch((error) => {
@@ -54,14 +59,27 @@ const Forms = () => {
   function PutAfterPostFunction(formId) {
     const putFormData = {
       method: "put",
-      url: "https://api.jotform.com/form/"+formId+"/questions?apiKey=" + apiKey,
+      url:
+        "https://api.jotform.com/form/" +
+        formId +
+        "/questions?apiKey=" +
+        apiKey,
       data: {
-        "questions":
-        {
-          "0":{"type":"control_textbox","text":"usrnm","order":"0","name":"usrnm"},
-          "1":{"type":"control_textbox","text":"pssword","order":"1","name":"pssword"},
-          "2":{"type":"control_textbox","text":"url","order":"2","name":"url"}
-        }
+        questions: {
+          0: {
+            type: "control_textbox",
+            text: "usrnm",
+            order: "0",
+            name: "usrnm",
+          },
+          1: {
+            type: "control_textbox",
+            text: "pssword",
+            order: "1",
+            name: "pssword",
+          },
+          2: { type: "control_textbox", text: "url", order: "2", name: "url" },
+        },
       },
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -111,7 +129,7 @@ const Forms = () => {
       });
   }
 
-  function GetSubmissions() {
+  function GetSubmissions(formId) {
     const getFormData = {
       method: "get",
       url:
@@ -159,6 +177,9 @@ const Forms = () => {
         })
         .catch((error) => {
           console.log(error);
+        })
+        .then((resp) => {
+          GetSubmissions(formId);
         });
       setUserName("");
       setPassword("");
@@ -204,11 +225,6 @@ const Forms = () => {
       <Button variant="contained" onClick={handleSubmit}>
         Add
       </Button>
-      <Typography mt={2}>
-        <Button variant="contained" onClick={GetSubmissions}>
-          get submissions
-        </Button>
-      </Typography>
       <Box
         sx={{
           width: "35%",
