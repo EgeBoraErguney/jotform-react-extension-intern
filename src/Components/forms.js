@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
+
+
 import {
   Button,
   TextField,
@@ -263,7 +265,9 @@ const Forms = () => {
                   <DeleteIcon onClick = {() => deleteSubmission(item.id)}/>
                 </IconButton>
                 <IconButton sx={{ float: "right" }}>
-                  <EditIcon />
+                  <EditIcon onClick = {() => {
+                    window.location.href = "https://www.jotform.com/tables/"+ formId
+                  }}/>
                 </IconButton>
                 <Typography mt={5} mb={2} variant="h5">
                   {item.answers[3].answer}{" "}
