@@ -13,7 +13,7 @@ import {
   IconButton,
   Paper,
 } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 const Forms = () => {
@@ -81,7 +81,7 @@ const Forms = () => {
             order: "1",
             name: "pssword",
           },
-          2: { type: "control_textbox", text: "url", order: "2", name: "url" },
+          2: { type: "control_textbox", text: "url", order: "2", name: "url", validation: "Url" },
         },
       },
       headers: {
@@ -114,6 +114,7 @@ const Forms = () => {
         "questions[2][text]": "url",
         "questions[2][order]": 2,
         "questions[2][name]": "url",
+        "questions[2][validation]": "Url",
         */
         "properties[title]": "Jotform_Password_Manager",
       }),
