@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 
-
 import {
   Button,
   TextField,
@@ -203,13 +202,11 @@ const Forms = () => {
     axios(deleteSubmission)
       .then((resp) => {
         console.log(resp);
+        GetSubmissions(formId);
       })
       .catch((error) => {
         console.log(error);
       })
-      .then((resp) => {
-        GetSubmissions(formId);
-      });
   }
 
   return (
