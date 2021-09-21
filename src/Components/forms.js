@@ -24,7 +24,9 @@ const Forms = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [submissions, setSubmissions] = useState([]);
+  const [filteredSubmissions, setFilteredSubmissions] = useState([]);
   const [url, setUrl] = useState("");
+  const [searchValue, setSearchValue] = useState("null");
 
   useEffect(() => {
     GetFormsAtTheBeginning();
@@ -32,6 +34,7 @@ const Forms = () => {
 
   useEffect(() => {
     UpdateActiveTabUrl();
+    UpdateFilteredSubmissions(searchValue);
   }, [submissions, formId]);
 
   function UpdateActiveTabUrl() {
@@ -39,8 +42,32 @@ const Forms = () => {
       chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         if (tabs) {
           setUrl(tabs[0].url);
+          if (searchValue === "null") {
+            setSearchValue(tabs[0].url);
+          }
         }
       });
+  }
+
+  function UpdateFilteredSubmissions(searchValue) {
+    let result = [];
+    result = submissions.filter((item) => {
+      if (typeof item !== "undefined" && item) {
+        if (typeof item.answers[3] !== "undefined" && item.answers[3]) {
+          if (
+            typeof item.answers[3].answer !== "undefined" &&
+            item.answers[3].answer
+          ) {
+            return (
+              item.answers[3].answer
+                .toLowerCase()
+                .search(searchValue.toLowerCase()) != -1
+            );
+          }
+        }
+      }
+    });
+    setFilteredSubmissions(result);
   }
 
   function GetFormsAtTheBeginning() {
@@ -254,6 +281,7 @@ const Forms = () => {
       </Typography>
       <Typography pt={2} mt={1} mb={2}>
         <TextField
+          style={{ width: 400 }}
           label="Url"
           variant="outlined"
           name="url"
@@ -266,16 +294,29 @@ const Forms = () => {
       <Button variant="contained" onClick={handleSubmit}>
         Add
       </Button>
+      <Typography pt={1} mt={1}>
+        <TextField
+          style={{ width: 400 }}
+          label="Search Url"
+          variant="outlined"
+          name="search"
+          value={searchValue}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            UpdateFilteredSubmissions(e.target.value);
+          }}
+        />
+      </Typography>
       <Box
         sx={{
-          width: "40%",
+          width: "60%",
           margin: "auto",
           alignItems: "center",
           pl: 1,
           pb: 1,
         }}
       >
-        {submissions.map((item) => {
+        {filteredSubmissions.map((item) => {
           return (
             <Card sx={{ mt: 3 }}>
               <CardContent>
@@ -285,7 +326,9 @@ const Forms = () => {
                 <IconButton sx={{ float: "right" }}>
                   <EditIcon
                     onClick={() => {
-                      chrome.tabs.create({url: "https://www.jotform.com/tables/" + formId});
+                      chrome.tabs.create({
+                        url: "https://www.jotform.com/tables/" + formId,
+                      });
                     }}
                   />
                 </IconButton>
