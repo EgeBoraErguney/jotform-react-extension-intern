@@ -2,10 +2,15 @@
   "manifest_version": 2,
   "version": "0.0.1",
   "short_name": "React App",
-  "name": "Extension",
+  "name": "Jotform Password Manager",
   "browser_action": {
     "default_popup": "index.html",
-    "default_title": "Open the popup"
+    "default_title": "Jotform Password Manager"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://js.jotform.com; object-src 'self'",
   "permissions": ["tabs", "activeTab", "<all_urls>", "*://*/*", "webRequest"]
