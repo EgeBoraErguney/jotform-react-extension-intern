@@ -43,10 +43,6 @@ const Forms = () => {
       });
   }
 
-  function OpenInNewTab(urlParam) {
-    chrome.tabs.create({ url: urlParam });
-  }
-
   function GetFormsAtTheBeginning() {
     const getFormData = {
       method: "get",
@@ -289,7 +285,7 @@ const Forms = () => {
                 <IconButton sx={{ float: "right" }}>
                   <EditIcon
                     onClick={() => {
-                      OpenInNewTab("https://www.jotform.com/tables/" + formId);
+                      chrome.tabs.create({url: "https://www.jotform.com/tables/" + formId});
                     }}
                   />
                 </IconButton>
