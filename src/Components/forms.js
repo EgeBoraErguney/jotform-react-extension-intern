@@ -193,6 +193,23 @@ const Forms = () => {
     }
   };
 
+  const deleteSubmission = (subId) => {
+    const deleteSubmission = {
+      method: "delete",
+      url: "https://api.jotform.com/submission/"+ subId +"?apiKey=" + apiKey,
+    }
+    axios(deleteSubmission)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .then((resp) => {
+        GetSubmissions(formId);
+      });
+  }
+
   return (
     <>
       <Typography mt={2} mb={2} variant="h4">
@@ -243,7 +260,7 @@ const Forms = () => {
             <Card sx={{ mt: 3 }}>
               <CardContent>
                 <IconButton sx={{ float: "right" }}>
-                  <DeleteIcon />
+                  <DeleteIcon onClick = {() => deleteSubmission(item.id)}/>
                 </IconButton>
                 <IconButton sx={{ float: "right" }}>
                   <EditIcon />
