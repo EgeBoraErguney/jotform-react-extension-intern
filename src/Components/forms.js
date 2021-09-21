@@ -43,6 +43,10 @@ const Forms = () => {
       });
   }
 
+  function OpenInNewTab(urlParam) {
+    chrome.tabs.create({ url: urlParam });
+  }
+
   function GetFormsAtTheBeginning() {
     const getFormData = {
       method: "get",
@@ -268,7 +272,7 @@ const Forms = () => {
       </Button>
       <Box
         sx={{
-          width: "35%",
+          width: "40%",
           margin: "auto",
           alignItems: "center",
           pl: 1,
@@ -285,12 +289,11 @@ const Forms = () => {
                 <IconButton sx={{ float: "right" }}>
                   <EditIcon
                     onClick={() => {
-                      window.location.href =
-                        "https://www.jotform.com/tables/" + formId;
+                      OpenInNewTab("https://www.jotform.com/tables/" + formId);
                     }}
                   />
                 </IconButton>
-                <Typography mt={5} mb={2} variant="h5">
+                <Typography mt={5} mb={2} variant="h6">
                   {item.answers[3].answer}{" "}
                 </Typography>
                 <Typography>username: {item.answers[1].answer} </Typography>
