@@ -1,3 +1,4 @@
+/*global chrome*/
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
@@ -28,6 +29,19 @@ const Forms = () => {
   useEffect(() => {
     GetFormsAtTheBeginning();
   }, []);
+
+  useEffect(() => {
+    UpdateActiveTabUrl();
+  }, [submissions, formId]);
+
+  function UpdateActiveTabUrl() {
+    chrome.tabs &&
+      chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+        if (tabs) {
+          setUrl(tabs[0].url);
+        }
+      });
+  }
 
   function GetFormsAtTheBeginning() {
     const getFormData = {
@@ -82,7 +96,13 @@ const Forms = () => {
             order: "1",
             name: "pssword",
           },
-          2: { type: "control_textbox", text: "url", order: "2", name: "url", validation: "Url" },
+          2: {
+            type: "control_textbox",
+            text: "url",
+            order: "2",
+            name: "url",
+            validation: "Url",
+          },
         },
       },
       headers: {
@@ -197,8 +217,8 @@ const Forms = () => {
   const deleteSubmission = (subId) => {
     const deleteSubmission = {
       method: "delete",
-      url: "https://api.jotform.com/submission/"+ subId +"?apiKey=" + apiKey,
-    }
+      url: "https://api.jotform.com/submission/" + subId + "?apiKey=" + apiKey,
+    };
     axios(deleteSubmission)
       .then((resp) => {
         console.log(resp);
@@ -206,8 +226,8 @@ const Forms = () => {
       })
       .catch((error) => {
         console.log(error);
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -237,6 +257,7 @@ const Forms = () => {
           label="Url"
           variant="outlined"
           name="url"
+          disabled
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
@@ -259,12 +280,15 @@ const Forms = () => {
             <Card sx={{ mt: 3 }}>
               <CardContent>
                 <IconButton sx={{ float: "right" }}>
-                  <DeleteIcon onClick = {() => deleteSubmission(item.id)}/>
+                  <DeleteIcon onClick={() => deleteSubmission(item.id)} />
                 </IconButton>
                 <IconButton sx={{ float: "right" }}>
-                  <EditIcon onClick = {() => {
-                    window.location.href = "https://www.jotform.com/tables/"+ formId
-                  }}/>
+                  <EditIcon
+                    onClick={() => {
+                      window.location.href =
+                        "https://www.jotform.com/tables/" + formId;
+                    }}
+                  />
                 </IconButton>
                 <Typography mt={5} mb={2} variant="h5">
                   {item.answers[3].answer}{" "}

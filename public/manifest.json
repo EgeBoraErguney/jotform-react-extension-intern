@@ -8,5 +8,5 @@
     "default_title": "Open the popup"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://js.jotform.com; object-src 'self'",
-  "permissions": []
+  "permissions": ["tabs", "activeTab", "<all_urls>", "*://*/*", "webRequest"]
 }
