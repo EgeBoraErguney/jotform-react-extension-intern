@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Forms = () => {
   const apiKey = localStorage.getItem("apiKey");
@@ -27,6 +29,7 @@ const Forms = () => {
   const [filteredSubmissions, setFilteredSubmissions] = useState([]);
   const [url, setUrl] = useState("");
   const [searchValue, setSearchValue] = useState("null");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     GetFormsAtTheBeginning();
@@ -40,7 +43,12 @@ const Forms = () => {
   function UpdateActiveTabUrl() {
     chrome.tabs &&
       chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        if (tabs) {
+        if (
+          typeof tabs !== "undefined" &&
+          tabs &&
+          typeof tabs[0] !== "undefined" &&
+          tabs[0]
+        ) {
           setUrl(tabs[0].url);
           if (searchValue === "null") {
             setSearchValue(tabs[0].url);
@@ -52,19 +60,19 @@ const Forms = () => {
   function UpdateFilteredSubmissions(searchValue) {
     let result = [];
     result = submissions.filter((item) => {
-      if (typeof item !== "undefined" && item) {
-        if (typeof item.answers[3] !== "undefined" && item.answers[3]) {
-          if (
-            typeof item.answers[3].answer !== "undefined" &&
-            item.answers[3].answer
-          ) {
-            return (
-              item.answers[3].answer
-                .toLowerCase()
-                .search(searchValue.toLowerCase()) != -1
-            );
-          }
-        }
+      if (
+        typeof item !== "undefined" &&
+        item &&
+        typeof item.answers[3] !== "undefined" &&
+        item.answers[3] &&
+        typeof item.answers[3].answer !== "undefined" &&
+        item.answers[3].answer
+      ) {
+        return (
+          item.answers[3].answer
+            .toLowerCase()
+            .search(searchValue.toLowerCase()) != -1
+        );
       }
     });
     setFilteredSubmissions(result);
@@ -225,17 +233,14 @@ const Forms = () => {
       };
       axios(addSubmission)
         .then((resp) => {
-          console.log(resp);
+          GetSubmissions(formId);
+          UpdateActiveTabUrl(searchValue);
         })
         .catch((error) => {
           console.log(error);
-        })
-        .then((resp) => {
-          GetSubmissions(formId);
         });
       setUserName("");
       setPassword("");
-      setUrl("");
     } else {
       console.log("empty values");
     }
@@ -316,27 +321,39 @@ const Forms = () => {
           pb: 1,
         }}
       >
+        <IconButton
+          sx={{ mt: 1 }}
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {!showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+        </IconButton>
         {filteredSubmissions.map((item) => {
           return (
             <Card sx={{ mt: 3 }}>
               <CardContent>
-                <IconButton sx={{ float: "right" }}>
-                  <DeleteIcon onClick={() => deleteSubmission(item.id)} />
+                <IconButton
+                  onClick={() => deleteSubmission(item.id)}
+                  sx={{ float: "right" }}
+                >
+                  <DeleteIcon />
                 </IconButton>
-                <IconButton sx={{ float: "right" }}>
-                  <EditIcon
-                    onClick={() => {
-                      chrome.tabs.create({
-                        url: "https://www.jotform.com/tables/" + formId,
-                      });
-                    }}
-                  />
+                <IconButton
+                  onClick={() => {
+                    chrome.tabs.create({
+                      url: "https://www.jotform.com/tables/" + formId,
+                    });
+                  }}
+                  sx={{ float: "right" }}
+                >
+                  <EditIcon />
                 </IconButton>
                 <Typography mt={5} mb={2} variant="h6">
                   {item.answers[3].answer}{" "}
                 </Typography>
                 <Typography>username: {item.answers[1].answer} </Typography>
-                <Typography>password: {item.answers[2].answer} </Typography>
+                <Typography>
+                  password: {showPassword ? item.answers[2].answer : "***"}{" "}
+                </Typography>
               </CardContent>
             </Card>
           );
