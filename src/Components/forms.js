@@ -10,8 +10,11 @@ import {
   Card,
   Container,
   CardContent,
+  IconButton,
   Paper,
 } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from "@mui/icons-material/Edit";
 
 const Forms = () => {
   const apiKey = localStorage.getItem("apiKey");
@@ -238,7 +241,13 @@ const Forms = () => {
           return (
             <Card sx={{ mt: 3 }}>
               <CardContent>
-                <Typography mb={2} variant="h5">
+                <IconButton sx={{ float: "right" }}>
+                  <DeleteIcon />
+                </IconButton>
+                <IconButton sx={{ float: "right" }}>
+                  <EditIcon />
+                </IconButton>
+                <Typography mt={5} mb={2} variant="h5">
                   {item.answers[3].answer}{" "}
                 </Typography>
                 <Typography>username: {item.answers[1].answer} </Typography>
