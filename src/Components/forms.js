@@ -40,15 +40,41 @@ const Forms = () => {
     UpdateFilteredSubmissions(searchValue);
   }, [submissions, formId]);
 
+  function fillFormInputs(username, password) {
+    chrome.tabs &&
+      chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+        if (
+          typeof tabs !== "undefined" &&
+          tabs &&
+          typeof tabs[0] !== "undefined" &&
+          tabs[0]
+        ) {
+          chrome.tabs.sendMessage(
+            tabs[0].id,
+            { action: "fillFormData", username: username, password: password },
+            function (response) {
+              if (response && response.data) {
+                console.log(response.data);
+              }
+            }
+          );
+        }
+      });
+  }
+
   function GetFormInputs(tabID) {
-    chrome.tabs.sendMessage(tabID, {action: "getFormData"}, function(response) {
-      if(response && response.data && response.data.username){
-        setUserName(response.data.username)
+    chrome.tabs.sendMessage(
+      tabID,
+      { action: "getFormData" },
+      function (response) {
+        if (response && response.data && response.data.username) {
+          setUserName(response.data.username);
+        }
+        if (response && response.data && response.data.password) {
+          setPassword(response.data.password);
+        }
       }
-      if(response && response.data && response.data.password){
-        setPassword(response.data.password);
-      }
-    });
+    );
   }
 
   function UpdateActiveTabUrl() {
@@ -368,6 +394,18 @@ const Forms = () => {
                 >
                   <EditIcon />
                 </IconButton>
+                <Button
+                  onClick={() =>
+                    fillFormInputs(
+                      item.answers[1].answer,
+                      item.answers[2].answer
+                    )
+                  }
+                  variant="primary"
+                  sx={{ float: "right" }}
+                >
+                  Fill
+                </Button>
                 <Typography mt={5} mb={2} variant="h6">
                   {item.answers[3].answer}{" "}
                 </Typography>
