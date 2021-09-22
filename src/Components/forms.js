@@ -41,7 +41,14 @@ const Forms = () => {
   }, [submissions, formId]);
 
   function GetFormInputs(tabID) {
-    
+    chrome.tabs.sendMessage(tabID, {action: "getFormData"}, function(response) {
+      if(response && response.data && response.data.username){
+        setUserName(response.data.username)
+      }
+      if(response && response.data && response.data.password){
+        setPassword(response.data.password);
+      }
+    });
   }
 
   function UpdateActiveTabUrl() {
@@ -219,7 +226,6 @@ const Forms = () => {
     e.preventDefault();
     if (userName && password && url) {
       const account = { userName, password, url };
-      console.log(account);
       const addSubmission = {
         method: "post",
         url:
