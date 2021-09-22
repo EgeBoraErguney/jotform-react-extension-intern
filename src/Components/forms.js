@@ -51,7 +51,7 @@ const Forms = () => {
         ) {
           setUrl(tabs[0].url);
           if (searchValue === "null") {
-            setSearchValue(tabs[0].url);
+            setSearchValue(new URL(tabs[0].url).hostname);
           }
         }
       });
