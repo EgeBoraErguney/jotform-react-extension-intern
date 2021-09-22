@@ -299,7 +299,7 @@ const Forms = () => {
       <Button variant="contained" onClick={handleSubmit}>
         Add
       </Button>
-      <Typography pt={1} mt={1}>
+      <Typography pt={2} mt={1} mb={2}>
         <TextField
           style={{ width: 400 }}
           label="Search Url"
@@ -312,6 +312,12 @@ const Forms = () => {
           }}
         />
       </Typography>
+
+      <Button variant="contained" onClick={() => 
+        {setSearchValue("");
+        UpdateFilteredSubmissions("");}}>
+        Clear
+      </Button>
       <Box
         sx={{
           width: "60%",
