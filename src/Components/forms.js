@@ -40,6 +40,10 @@ const Forms = () => {
     UpdateFilteredSubmissions(searchValue);
   }, [submissions, formId]);
 
+  function GetFormInputs(tabID) {
+    
+  }
+
   function UpdateActiveTabUrl() {
     chrome.tabs &&
       chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
@@ -50,6 +54,7 @@ const Forms = () => {
           tabs[0]
         ) {
           setUrl(tabs[0].url);
+          GetFormInputs(tabs[0].id);
           if (searchValue === "null") {
             setSearchValue(new URL(tabs[0].url).hostname);
           }
@@ -313,9 +318,13 @@ const Forms = () => {
         />
       </Typography>
 
-      <Button variant="contained" onClick={() => 
-        {setSearchValue("");
-        UpdateFilteredSubmissions("");}}>
+      <Button
+        variant="contained"
+        onClick={() => {
+          setSearchValue("");
+          UpdateFilteredSubmissions("");
+        }}
+      >
         Clear
       </Button>
       <Box
