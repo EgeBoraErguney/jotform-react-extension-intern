@@ -15,9 +15,10 @@
       "run_at": "document_start"
     }
   ],
-  "web_accessible_resources" : [
-    "*.html"
-  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "web_accessible_resources": ["*.html", "*.js"],
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
