@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
+import logo from './podo_8.png'; 
 
 import {
   Button,
@@ -300,6 +301,7 @@ const Forms = () => {
 
   return (
     <>
+      <img src={logo} /> 
       <Typography mt={2} mb={2} variant="h4">
         Password Manager
       </Typography>
