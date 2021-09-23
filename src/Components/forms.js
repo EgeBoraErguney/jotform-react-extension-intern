@@ -44,15 +44,8 @@ const Forms = () => {
   function fillFormInputs(username, password) {
     chrome.tabs &&
       chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        if (
-          typeof tabs !== "undefined" &&
-          tabs &&
-          typeof tabs[0] !== "undefined" &&
-          tabs[0]
-        ) {
-          chrome.tabs.sendMessage(
-            tabs[0].id,
-            { action: "fillFormData", username: username, password: password },
+        if (typeof tabs !== "undefined" && tabs && typeof tabs[0] !== "undefined" && tabs[0]) {
+          chrome.tabs.sendMessage(tabs[0].id, { action: "fillFormData", username: username, password: password },
             function (response) {
               if (response && response.data) {
                 console.log(response.data);
@@ -64,9 +57,7 @@ const Forms = () => {
   }
 
   function GetFormInputs(tabID) {
-    chrome.tabs.sendMessage(
-      tabID,
-      { action: "getFormData" },
+    chrome.tabs.sendMessage(tabID, { action: "getFormData" },
       function (response) {
         if (response && response.data && response.data.username) {
           setUserName(response.data.username);
@@ -81,12 +72,7 @@ const Forms = () => {
   function UpdateActiveTabUrl() {
     chrome.tabs &&
       chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        if (
-          typeof tabs !== "undefined" &&
-          tabs &&
-          typeof tabs[0] !== "undefined" &&
-          tabs[0]
-        ) {
+        if (typeof tabs !== "undefined" && tabs && typeof tabs[0] !== "undefined" && tabs[0]) {
           setUrl(tabs[0].url);
           GetFormInputs(tabs[0].id);
           if (searchValue === "null") {
@@ -99,14 +85,8 @@ const Forms = () => {
   function UpdateFilteredSubmissions(searchValue) {
     let result = [];
     result = submissions.filter((item) => {
-      if (
-        typeof item !== "undefined" &&
-        item &&
-        typeof item.answers[3] !== "undefined" &&
-        item.answers[3] &&
-        typeof item.answers[3].answer !== "undefined" &&
-        item.answers[3].answer
-      ) {
+      if (typeof item !== "undefined" && item && typeof item.answers[3] !== "undefined" && item.answers[3] && 
+          typeof item.answers[3].answer !== "undefined" && item.answers[3].answer) {
         return (
           item.answers[3].answer
             .toLowerCase()
@@ -124,23 +104,11 @@ const Forms = () => {
     };
     axios(getFormData)
       .then((resp) => {
-        if (
-          resp.data.content.filter(
-            (obj) => obj.title === "Jotform_Password_Manager"
-          ).length < 1
-        ) {
+        if (resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager").length < 1) {
           PostFunction();
         } else {
-          setFormId(
-            resp.data.content.filter(
-              (obj) => obj.title === "Jotform_Password_Manager"
-            )[0].id
-          );
-          GetSubmissions(
-            resp.data.content.filter(
-              (obj) => obj.title === "Jotform_Password_Manager"
-            )[0].id
-          );
+          setFormId(resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager")[0].id);
+          GetSubmissions(resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager")[0].id);
         }
       })
       .catch((error) => {
@@ -151,11 +119,7 @@ const Forms = () => {
   function PutAfterPostFunction(formId) {
     const putFormData = {
       method: "put",
-      url:
-        "https://api.jotform.com/form/" +
-        formId +
-        "/questions?apiKey=" +
-        apiKey,
+      url: "https://api.jotform.com/form/" + formId + "/questions?apiKey=" + apiKey,
       data: {
         questions: {
           0: {
@@ -191,26 +155,12 @@ const Forms = () => {
         console.log(error);
       });
   }
+
   function PostFunction() {
     const postFormData = {
       method: "post",
       url: "https://api.jotform.com/user/forms?apiKey=" + apiKey,
       data: qs.stringify({
-        /*
-        "questions[0][type]": "control_textbox",
-        "questions[0][text]": "usrnm",
-        "questions[0][order]": 0,
-        "questions[0][name]": "usrnm",
-        "questions[1][type]": "control_textbox",
-        "questions[1][text]": "psswrd",
-        "questions[1][order]": 1,
-        "questions[1][name]": "psswrd",
-        "questions[2][type]": "control_textbox",
-        "questions[2][text]": "url",
-        "questions[2][order]": 2,
-        "questions[2][name]": "url",
-        "questions[2][validation]": "Url",
-        */
         "properties[title]": "Jotform_Password_Manager",
       }),
       headers: {
@@ -221,7 +171,6 @@ const Forms = () => {
       .then((resp) => {
         setFormId(resp.data.content.id);
         PutAfterPostFunction(resp.data.content.id);
-        //PutEncryptedProperty(resp.data.content.id);
       })
       .catch((error) => {
         console.log(error);
@@ -231,11 +180,7 @@ const Forms = () => {
   function GetSubmissions(formId) {
     const getFormData = {
       method: "get",
-      url:
-        "https://api.jotform.com/form/" +
-        formId +
-        "/submissions?apiKey=" +
-        apiKey,
+      url: "https://api.jotform.com/form/" + formId + "/submissions?apiKey=" + apiKey,
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8",
       },
@@ -252,14 +197,9 @@ const Forms = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (userName && password && url) {
-      const account = { userName, password, url };
       const addSubmission = {
         method: "post",
-        url:
-          "https://api.jotform.com/form/" +
-          formId +
-          "/submissions?apiKey=" +
-          apiKey,
+        url: "https://api.jotform.com/form/" + formId + "/submissions?apiKey=" + apiKey,
         data: qs.stringify({
           "submission[1]": userName,
           "submission[2]": password,
