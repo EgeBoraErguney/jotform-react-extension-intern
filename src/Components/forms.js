@@ -108,6 +108,7 @@ const Forms = () => {
           PostFunction();
         } else {
           setFormId(resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager")[0].id);
+          localStorage.setItem("formId", resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager")[0].id);
           GetSubmissions(resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager")[0].id);
         }
       })
@@ -170,6 +171,7 @@ const Forms = () => {
     axios(postFormData)
       .then((resp) => {
         setFormId(resp.data.content.id);
+        localStorage.setItem("formId", resp.data.content.id);
         PutAfterPostFunction(resp.data.content.id);
       })
       .catch((error) => {
