@@ -25,5 +25,5 @@
     "128": "icon128.png"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://js.jotform.com; object-src 'self'",
-  "permissions": ["tabs", "activeTab", "<all_urls>", "*://*/*", "webRequest"]
+  "permissions": ["tabs", "activeTab", "<all_urls>", "*://*/*", "webRequest","storage"]
 }
