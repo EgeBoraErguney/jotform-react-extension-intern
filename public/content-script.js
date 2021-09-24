@@ -43,6 +43,9 @@ function fillFormData(username, password) {
       inputs[i].name.toLowerCase() == "password"
     ) {
       inputs[i].value = password;
+      inputs[i].dispatchEvent(new Event('input', { bubbles: true }));
+      inputs[i].dispatchEvent(new Event('change', { bubbles: true }));
+      inputs[i].dispatchEvent(new Event('onchange', { bubbles: true }));
       break;
     }
   }
@@ -58,6 +61,9 @@ function fillFormData(username, password) {
       inputs[i].name.toLowerCase() == "user"
     ) {
       inputs[i].value = username;
+      inputs[i].dispatchEvent(new Event('input', { bubbles: true }));
+      inputs[i].dispatchEvent(new Event('change', { bubbles: true }));
+      inputs[i].dispatchEvent(new Event('onchange', { bubbles: true }));
       break;
     }
   }
