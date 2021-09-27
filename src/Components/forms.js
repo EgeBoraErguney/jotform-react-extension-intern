@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
-import logo from './jotform-logo.png'; 
+import logo from "./jotform-logo.png";
 
 import {
   Button,
@@ -30,7 +30,7 @@ const Forms = () => {
   const [filteredSubmissions, setFilteredSubmissions] = useState([]);
   const [url, setUrl] = useState("");
   const [searchValue, setSearchValue] = useState("null");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState([]);
 
   useEffect(() => {
     GetFormsAtTheBeginning();
@@ -44,8 +44,15 @@ const Forms = () => {
   function fillFormInputs(username, password) {
     chrome.tabs &&
       chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        if (typeof tabs !== "undefined" && tabs && typeof tabs[0] !== "undefined" && tabs[0]) {
-          chrome.tabs.sendMessage(tabs[0].id, { action: "fillFormData", username: username, password: password },
+        if (
+          typeof tabs !== "undefined" &&
+          tabs &&
+          typeof tabs[0] !== "undefined" &&
+          tabs[0]
+        ) {
+          chrome.tabs.sendMessage(
+            tabs[0].id,
+            { action: "fillFormData", username: username, password: password },
             function (response) {
               if (response && response.data) {
                 console.log(response.data);
@@ -57,7 +64,9 @@ const Forms = () => {
   }
 
   function GetFormInputs(tabID) {
-    chrome.tabs.sendMessage(tabID, { action: "getFormData" },
+    chrome.tabs.sendMessage(
+      tabID,
+      { action: "getFormData" },
       function (response) {
         if (response && response.data && response.data.username) {
           setUserName(response.data.username);
@@ -72,7 +81,12 @@ const Forms = () => {
   function UpdateActiveTabUrl() {
     chrome.tabs &&
       chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        if (typeof tabs !== "undefined" && tabs && typeof tabs[0] !== "undefined" && tabs[0]) {
+        if (
+          typeof tabs !== "undefined" &&
+          tabs &&
+          typeof tabs[0] !== "undefined" &&
+          tabs[0]
+        ) {
           setUrl(tabs[0].url);
           GetFormInputs(tabs[0].id);
           if (searchValue === "null") {
@@ -85,8 +99,14 @@ const Forms = () => {
   function UpdateFilteredSubmissions(searchValue) {
     let result = [];
     result = submissions.filter((item) => {
-      if (typeof item !== "undefined" && item && typeof item.answers[3] !== "undefined" && item.answers[3] && 
-          typeof item.answers[3].answer !== "undefined" && item.answers[3].answer) {
+      if (
+        typeof item !== "undefined" &&
+        item &&
+        typeof item.answers[3] !== "undefined" &&
+        item.answers[3] &&
+        typeof item.answers[3].answer !== "undefined" &&
+        item.answers[3].answer
+      ) {
         return (
           item.answers[3].answer
             .toLowerCase()
@@ -104,12 +124,29 @@ const Forms = () => {
     };
     axios(getFormData)
       .then((resp) => {
-        if (resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager").length < 1) {
+        if (
+          resp.data.content.filter(
+            (obj) => obj.title === "Jotform_Password_Manager"
+          ).length < 1
+        ) {
           PostFunction();
         } else {
-          setFormId(resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager")[0].id);
-          localStorage.setItem("formId", resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager")[0].id);
-          GetSubmissions(resp.data.content.filter((obj) => obj.title === "Jotform_Password_Manager")[0].id);
+          setFormId(
+            resp.data.content.filter(
+              (obj) => obj.title === "Jotform_Password_Manager"
+            )[0].id
+          );
+          localStorage.setItem(
+            "formId",
+            resp.data.content.filter(
+              (obj) => obj.title === "Jotform_Password_Manager"
+            )[0].id
+          );
+          GetSubmissions(
+            resp.data.content.filter(
+              (obj) => obj.title === "Jotform_Password_Manager"
+            )[0].id
+          );
         }
       })
       .catch((error) => {
@@ -120,7 +157,11 @@ const Forms = () => {
   function PutAfterPostFunction(formId) {
     const putFormData = {
       method: "put",
-      url: "https://api.jotform.com/form/" + formId + "/questions?apiKey=" + apiKey,
+      url:
+        "https://api.jotform.com/form/" +
+        formId +
+        "/questions?apiKey=" +
+        apiKey,
       data: {
         questions: {
           0: {
@@ -182,7 +223,11 @@ const Forms = () => {
   function GetSubmissions(formId) {
     const getFormData = {
       method: "get",
-      url: "https://api.jotform.com/form/" + formId + "/submissions?apiKey=" + apiKey,
+      url:
+        "https://api.jotform.com/form/" +
+        formId +
+        "/submissions?apiKey=" +
+        apiKey,
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8",
       },
@@ -201,7 +246,11 @@ const Forms = () => {
     if (userName && password && url) {
       const addSubmission = {
         method: "post",
-        url: "https://api.jotform.com/form/" + formId + "/submissions?apiKey=" + apiKey,
+        url:
+          "https://api.jotform.com/form/" +
+          formId +
+          "/submissions?apiKey=" +
+          apiKey,
         data: qs.stringify({
           "submission[1]": userName,
           "submission[2]": password,
@@ -243,7 +292,7 @@ const Forms = () => {
 
   return (
     <>
-      <img src={logo} /> 
+      <img src={logo} />
       <Typography mt={2} mb={2} variant="h4">
         Password Manager
       </Typography>
@@ -311,21 +360,15 @@ const Forms = () => {
           alignItems: "center",
         }}
       >
-        <IconButton
-          sx={{ mt: 1 }}
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {!showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-        </IconButton>
         {filteredSubmissions.map((item) => {
           return (
-            <Card sx={{ mt: 1 }}>
+            <Card key={item.id} sx={{ mt: 1 }}>
               <CardContent>
                 <IconButton
                   onClick={() => deleteSubmission(item.id)}
                   sx={{ float: "right" }}
                 >
-                  <DeleteIcon fontSize="small"/>
+                  <DeleteIcon fontSize="small" />
                 </IconButton>
                 <IconButton
                   onClick={() => {
@@ -335,7 +378,25 @@ const Forms = () => {
                   }}
                   sx={{ float: "right" }}
                 >
-                  <EditIcon fontSize ="small"/>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton
+                  sx={{ float: "right" }}
+                  onClick={() => {
+                    if (showPassword.indexOf(item.id) === -1) {
+                      setShowPassword([...showPassword, item.id]);
+                    } else {
+                      var array = [...showPassword];
+                      array.splice(showPassword.indexOf(item.id), 1);
+                      setShowPassword(array);
+                    }
+                  }}
+                >
+                  {showPassword.indexOf(item.id) !== -1 ? (
+                    <VisibilityOffIcon />
+                  ) : (
+                    <VisibilityIcon />
+                  )}
                 </IconButton>
                 <Button
                   onClick={() =>
@@ -352,9 +413,11 @@ const Forms = () => {
                 <Typography mt={5} mb={1} variant="subtitle1">
                   {item.answers[3].answer}{" "}
                 </Typography>
-                <Typography variant="subtitle2">username: {item.answers[1].answer} </Typography>
                 <Typography variant="subtitle2">
-                  password: {showPassword ? item.answers[2].answer : "***"}{" "}
+                  username: {item.answers[1].answer}{" "}
+                </Typography>
+                <Typography variant="subtitle2">
+                  password: {showPassword.indexOf(item.id) !== -1 ? item.answers[2].answer : "***"}{" "}
                 </Typography>
               </CardContent>
             </Card>
