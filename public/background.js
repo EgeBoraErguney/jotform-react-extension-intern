@@ -12,9 +12,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       if (request.data && request.data.password != "")
         localStorage.setItem("password", request.data.password);
       sendResponse("done");
+      return true;
     }
     if (request.action === "getLocalStorage") {
       sendResponse({ data: localStorage[request.key] });
+      return true;
     }
     if (request.action === "getFormDataFromContentScript") {
       const res = {
@@ -26,6 +28,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         },
       };
       sendResponse(res);
+      return true;
     }
     if (request.action === "closePopUpFromContentScript") {
       localStorage.removeItem('username');

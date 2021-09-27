@@ -80,10 +80,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === "getFormData") {
       const dataFromFunction = getFormData();
       sendResponse({ data: dataFromFunction });
+      return true;
     }
     if (request.action === "fillFormData") {
       fillFormData(request.username, request.password);
       sendResponse({ data: "success" });
+      return true;
     }
     if (request.action === "getFormDataFromPopUp") {
       chrome.runtime.sendMessage(
