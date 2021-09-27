@@ -18,10 +18,12 @@ function getFormData() {
       inputs[i].type.toLowerCase() == "username" ||
       inputs[i].type.toLowerCase() == "name" ||
       inputs[i].type.toLowerCase() == "user" ||
+      inputs[i].type.toLowerCase() == "login" ||
       inputs[i].name.toLowerCase() == "email" ||
       inputs[i].name.toLowerCase() == "username" ||
       inputs[i].name.toLowerCase() == "name" ||
-      inputs[i].name.toLowerCase() == "user"
+      inputs[i].name.toLowerCase() == "user" ||
+      inputs[i].name.toLowerCase() == "login"
     ) {
       username = inputs[i].value;
       break;
@@ -43,9 +45,9 @@ function fillFormData(username, password) {
       inputs[i].name.toLowerCase() == "password"
     ) {
       inputs[i].value = password;
-      inputs[i].dispatchEvent(new Event('input', { bubbles: true }));
-      inputs[i].dispatchEvent(new Event('change', { bubbles: true }));
-      inputs[i].dispatchEvent(new Event('onchange', { bubbles: true }));
+      inputs[i].dispatchEvent(new Event("input", { bubbles: true }));
+      inputs[i].dispatchEvent(new Event("change", { bubbles: true }));
+      inputs[i].dispatchEvent(new Event("onchange", { bubbles: true }));
       break;
     }
   }
@@ -55,15 +57,17 @@ function fillFormData(username, password) {
       inputs[i].type.toLowerCase() == "username" ||
       inputs[i].type.toLowerCase() == "name" ||
       inputs[i].type.toLowerCase() == "user" ||
+      inputs[i].type.toLowerCase() == "login" ||
       inputs[i].name.toLowerCase() == "email" ||
       inputs[i].name.toLowerCase() == "username" ||
       inputs[i].name.toLowerCase() == "name" ||
-      inputs[i].name.toLowerCase() == "user"
+      inputs[i].name.toLowerCase() == "user" ||
+      inputs[i].name.toLowerCase() == "login"
     ) {
       inputs[i].value = username;
-      inputs[i].dispatchEvent(new Event('input', { bubbles: true }));
-      inputs[i].dispatchEvent(new Event('change', { bubbles: true }));
-      inputs[i].dispatchEvent(new Event('onchange', { bubbles: true }));
+      inputs[i].dispatchEvent(new Event("input", { bubbles: true }));
+      inputs[i].dispatchEvent(new Event("change", { bubbles: true }));
+      inputs[i].dispatchEvent(new Event("onchange", { bubbles: true }));
       break;
     }
   }
@@ -103,22 +107,20 @@ function OnDOMContentLoaded() {
         openPopUp();
         chrome.runtime.sendMessage({ action: "setOpenPopUpFalse" }, () => {});
       } else {
-        var inputs = document.getElementsByTagName("input");
+        var inputs = document.getElementsByTagName("*");
         var i = 0;
-        for (; i < inputs.length; i++) {
-          if (
-            inputs[i].type.toLowerCase() == "password" ||
-            inputs[i].name.toLowerCase() == "password"
-          ) {
-            password = inputs[i].value;
+        for (max = inputs.length; i < max; i++) {
+          if(inputs[i].type == "password" ||
+          inputs[i].name == "password"){
+            console.log(inputs[i]);
             break;
           }
         }
-        let buttons = document.getElementsByTagName("button");
-        for (; i < buttons.length; i++) {
-          if (buttons[i].type == "submit" || buttons[i].type == "login") {
-            console.log(buttons[i]);
-            buttons[i].addEventListener("click", function () {
+        for (; i < inputs.length; i++) {
+          if (inputs[i].type === "button" || inputs[i].type === "submit") {
+            if(inputs[i].id === "toggle-password-visibility") continue;
+            console.log(inputs[i]);
+            inputs[i].addEventListener("click", function () {
               openPopUp();
             });
             break;
