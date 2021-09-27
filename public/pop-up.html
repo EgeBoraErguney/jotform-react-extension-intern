@@ -9,8 +9,17 @@
       .f1 {
         font-size: small;
       }
-      .mt10{
+      .mt10 {
         margin-top: 10px;
+      }
+      #popup_password_text{
+        width: 80px;
+        margin-right: 5px;
+        float: right;
+      }
+      #popup_toggle_password_button{
+        margin-top: 10px;
+        float:right;
       }
       body {
         background-color: rgb(255, 255, 255);
@@ -23,8 +32,12 @@
     <div id="pop_up_react_jotform_psmngr_extension">
       <div class="mt10 f1">Do you want to save ?</div>
       <div class="mt10 f1" id="popup_username_text"></div>
-      <div class="mt10 f1" id="popup_password_text"></div>
+      <button id="popup_toggle_password_button">Show</button>
+      <input type="password" class="mt10 f1" id="popup_password_text" disabled>
+    </input>
+    <br/>
       <button class="mt10" id="popup_save_button">Save</button>
+      <button class="mt10" id="popup_close_button">Close</button>
     </div>
   </body>
 </html>

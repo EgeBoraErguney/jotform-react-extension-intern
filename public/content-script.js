@@ -94,6 +94,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       );
       return true;
     }
+    if (request.action === "closePopUp") {
+      const div = document.getElementById("popupdiv_jotform-extension");
+      div.remove();
+      chrome.runtime.sendMessage(
+        { action: "closePopUpFromContentScript" },
+        function () {
+          sendResponse(true);
+        }
+      );
+      return true;
+    }
   }
 });
 
@@ -105,26 +116,23 @@ function OnDOMContentLoaded() {
     function (response) {
       if (response.data === "true") {
         openPopUp();
-        chrome.runtime.sendMessage({ action: "setOpenPopUpFalse" }, () => {});
-      } else {
-        var inputs = document.getElementsByTagName("*");
-        var i = 0;
-        for (max = inputs.length; i < max; i++) {
-          if(inputs[i].type == "password" ||
-          inputs[i].name == "password"){
-            console.log(inputs[i]);
-            break;
-          }
+      }
+      var inputs = document.getElementsByTagName("*");
+      var i = 0;
+      for (max = inputs.length; i < max; i++) {
+        if (inputs[i].type == "password" || inputs[i].name == "password") {
+          console.log(inputs[i]);
+          break;
         }
-        for (; i < inputs.length; i++) {
-          if (inputs[i].type === "button" || inputs[i].type === "submit") {
-            if(inputs[i].id === "toggle-password-visibility") continue;
-            console.log(inputs[i]);
-            inputs[i].addEventListener("click", function () {
-              openPopUp();
-            });
-            break;
-          }
+      }
+      for (; i < inputs.length; i++) {
+        if (inputs[i].type === "button" || inputs[i].type === "submit") {
+          if (inputs[i].id === "toggle-password-visibility") continue;
+          console.log(inputs[i]);
+          inputs[i].addEventListener("click", function () {
+            openPopUp();
+          });
+          break;
         }
       }
     }
@@ -132,6 +140,7 @@ function OnDOMContentLoaded() {
 }
 
 function openPopUp() {
+  if (document.getElementById("popupdiv_jotform-extension")) return;
   const elem = document.createElement("div");
   elem.id = "popupdiv_jotform-extension";
   elem.innerHTML = `<iframe id="iframe_jotform_extension"></iframe>`;

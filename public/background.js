@@ -27,8 +27,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       };
       sendResponse(res);
     }
-    if (request.action === "setOpenPopUpFalse") {
-      localStorage.setItem("openPopUp", false);
+    if (request.action === "closePopUpFromContentScript") {
+      localStorage.removeItem('username');
+      localStorage.removeItem('password');
+      localStorage.removeItem('openPopUp');
+      return true;
     }
   }
 });
