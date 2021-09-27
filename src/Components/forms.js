@@ -393,9 +393,9 @@ const Forms = () => {
                   }}
                 >
                   {showPassword.indexOf(item.id) !== -1 ? (
-                    <VisibilityOffIcon />
+                    <VisibilityOffIcon fontSize="small"/>
                   ) : (
-                    <VisibilityIcon />
+                    <VisibilityIcon fontSize="small"/>
                   )}
                 </IconButton>
                 <Button
