@@ -305,11 +305,10 @@ const Forms = () => {
       </Button>
       <Box
         sx={{
-          width: "60%",
+          height: "100%",
+          width: "80%",
           margin: "auto",
           alignItems: "center",
-          pl: 1,
-          pb: 1,
         }}
       >
         <IconButton
@@ -320,13 +319,13 @@ const Forms = () => {
         </IconButton>
         {filteredSubmissions.map((item) => {
           return (
-            <Card sx={{ mt: 3 }}>
+            <Card sx={{ mt: 1 }}>
               <CardContent>
                 <IconButton
                   onClick={() => deleteSubmission(item.id)}
                   sx={{ float: "right" }}
                 >
-                  <DeleteIcon />
+                  <DeleteIcon fontSize="small"/>
                 </IconButton>
                 <IconButton
                   onClick={() => {
@@ -336,7 +335,7 @@ const Forms = () => {
                   }}
                   sx={{ float: "right" }}
                 >
-                  <EditIcon />
+                  <EditIcon fontSize ="small"/>
                 </IconButton>
                 <Button
                   onClick={() =>
@@ -350,11 +349,11 @@ const Forms = () => {
                 >
                   Fill
                 </Button>
-                <Typography mt={5} mb={2} variant="h6">
+                <Typography mt={5} mb={1} variant="subtitle1">
                   {item.answers[3].answer}{" "}
                 </Typography>
-                <Typography>username: {item.answers[1].answer} </Typography>
-                <Typography>
+                <Typography variant="subtitle2">username: {item.answers[1].answer} </Typography>
+                <Typography variant="subtitle2">
                   password: {showPassword ? item.answers[2].answer : "***"}{" "}
                 </Typography>
               </CardContent>
