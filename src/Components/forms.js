@@ -377,7 +377,7 @@ const Forms = () => {
 
       <Box
         sx={{
-          height: "100%",
+          height: "25%",
           width: "80%",
           margin: "auto",
           alignItems: "center",
@@ -433,13 +433,13 @@ const Forms = () => {
                 >
                   Fill
                 </Button>
-                <Typography mt={5} mb={1} variant="subtitle1">
+                <Typography mt={5} mb={1} variant="subtitle2">
                   {item.answers[3].answer}{" "}
                 </Typography>
-                <Typography variant="subtitle2">
+                <Typography variant="caption" display="block">
                   username: {item.answers[1].answer}{" "}
                 </Typography>
-                <Typography variant="subtitle2">
+                <Typography variant="caption" display="block">
                   password: {showPassword.indexOf(item.id) !== -1 ? item.answers[2].answer : "***"}{" "}
                 </Typography>
               </CardContent>
@@ -448,10 +448,11 @@ const Forms = () => {
         })}
       </Box>
 
-      {isEncrypted ?  <Typography mt={2} mb={2}> Your passwords are encrypted </Typography>  : 
+      {isEncrypted ?  <Typography mt={2} mb={1}> Your passwords are encrypted </Typography>  : 
       <div>
-        <Typography mt={2} mb={2}> Your passwords are not encrypted. If you want yo save your password more securely, please follow this manual </Typography>
-        <Button
+        <Typography mt={3} mb={2}> Your passwords are not encrypted. If you want yo save your password more securely, please follow this manual </Typography>
+        <Button 
+
         variant="contained"
         onClick = {() => {
           chrome.tabs.create({
