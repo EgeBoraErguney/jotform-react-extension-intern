@@ -31,6 +31,7 @@ const Forms = () => {
   const [url, setUrl] = useState("");
   const [searchValue, setSearchValue] = useState("null");
   const [showPassword, setShowPassword] = useState([]);
+  const [isEncrypted, setIsEncrypted] = useState(false);
 
   useEffect(() => {
     GetFormsAtTheBeginning();
@@ -235,6 +236,7 @@ const Forms = () => {
     axios(getFormData)
       .then((resp) => {
         setSubmissions(resp.data.content);
+        GetProperties(formId);
       })
       .catch((error) => {
         console.log(error);
@@ -288,6 +290,25 @@ const Forms = () => {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  function GetProperties(formId) {
+    const properties = {
+      method: "get",
+      url: "https://api.jotform.com/form/" + formId + "/properties?apiKey=" + apiKey,
+    };
+    axios(properties)
+      .then((resp) => {
+        console.log(resp.data.content.isEncrypted);   
+        if (resp.data.content.isEncrypted === "Yes") {
+          setIsEncrypted(true);
+        } else {
+          setIsEncrypted(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -310,6 +331,7 @@ const Forms = () => {
           label="Password"
           variant="outlined"
           name="password"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -352,6 +374,7 @@ const Forms = () => {
       >
         Clear
       </Button>
+
       <Box
         sx={{
           height: "100%",
@@ -424,6 +447,23 @@ const Forms = () => {
           );
         })}
       </Box>
+
+      {isEncrypted ?  <Typography mt={2} mb={2}> Your passwords are encrypted </Typography>  : 
+      <div>
+        <Typography mt={2} mb={2}> Your passwords are not encrypted. If you want yo save your password more securely, please follow this manual </Typography>
+        <Button
+        variant="contained"
+        onClick = {() => {
+          chrome.tabs.create({
+            url: "https://www.jotform.com/help/344-encrypted-forms-and-how-to-use-them/"
+          })
+        }}
+       >
+        How to Encrypt
+        </Button>
+      </div>
+      }
+
     </>
   );
 };
