@@ -119,26 +119,32 @@ function OnDOMContentLoaded() {
       if (response.data === "true") {
         openPopUp();
       }
-      var inputs = document.getElementsByTagName("*");
-      var i = 0;
-      for (max = inputs.length; i < max; i++) {
-        if (inputs[i].type == "password" || inputs[i].name == "password") {
-          console.log(inputs[i]);
-          break;
-        }
-      }
-      for (; i < inputs.length; i++) {
-        if (inputs[i].type === "button" || inputs[i].type === "submit") {
-          if (inputs[i].id === "toggle-password-visibility") continue;
-          console.log(inputs[i]);
-          inputs[i].addEventListener("click", function () {
-            openPopUp();
-          });
-          break;
-        }
-      }
+      FindButtonAndAddFunction();
+      window.addEventListener(
+        "DOMSubtreeModified",
+        () => FindButtonAndAddFunction(),
+        false
+      );
     }
   );
+}
+function FindButtonAndAddFunction() {
+  var inputs = document.getElementsByTagName("*");
+  var i = 0;
+  for (max = inputs.length; i < max; i++) {
+    if (inputs[i].type == "password" || inputs[i].name == "password") {
+      break;
+    }
+  }
+  for (; i < inputs.length; i++) {
+    if (inputs[i].type === "button" || inputs[i].type === "submit") {
+      if (inputs[i].id === "toggle-password-visibility") continue;
+      inputs[i].addEventListener("click", function () {
+        openPopUp();
+      });
+      break;
+    }
+  }
 }
 
 function openPopUp() {
