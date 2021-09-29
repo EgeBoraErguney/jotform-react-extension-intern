@@ -332,7 +332,7 @@ const Forms = () => {
       >
         {filteredSubmissions.map((item) => {
           return (
-            <Card key={item.id} sx={{ mt: 1, p: 0 }}>
+            <Card key={item.id} sx={{ mt: 1, p: 1 }}>
               <CardContent
                 sx={{
                   m: 0,
@@ -388,7 +388,7 @@ const Forms = () => {
                 >
                   Fill
                 </Button>
-                <Typography mt={1} variant="subtitle2">
+                <Typography mt={2} variant="subtitle2">
                   {item.answers[3].answer}{" "}
                 </Typography>
                 <Typography variant="caption">
