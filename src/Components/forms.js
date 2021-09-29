@@ -378,7 +378,7 @@ const Forms = () => {
       <Box
         sx={{
           height: "25%",
-          width: "80%",
+          width: "60%",
           margin: "auto",
           alignItems: "center",
         }}
@@ -436,10 +436,10 @@ const Forms = () => {
                 <Typography mt={5} mb={1} variant="subtitle2">
                   {item.answers[3].answer}{" "}
                 </Typography>
-                <Typography variant="caption" display="block">
+                <Typography variant="caption" >
                   username: {item.answers[1].answer}{" "}
                 </Typography>
-                <Typography variant="caption" display="block">
+                <Typography variant="caption" >
                   password: {showPassword.indexOf(item.id) !== -1 ? item.answers[2].answer : "***"}{" "}
                 </Typography>
               </CardContent>
