@@ -332,13 +332,13 @@ const Forms = () => {
       >
         {filteredSubmissions.map((item) => {
           return (
-            <Card key={item.id} sx={{ mt: 1, p: 1 }}>
+            <Card key={item.id} sx={{ mt: 0.5, p: 0.5 }}>
               <CardContent
                 sx={{
                   m: 0,
-                  p: 1,
+                  p: 0.5,
                   "&:last-child": {
-                    paddingBottom: 1,
+                    paddingBottom: 0.5,
                   },
                 }}
               >
@@ -388,7 +388,7 @@ const Forms = () => {
                 >
                   Fill
                 </Button>
-                <Typography mt={2} variant="subtitle2">
+                <Typography mt={1} variant="subtitle2">
                   {item.answers[3].answer}{" "}
                 </Typography>
                 <Typography variant="caption">
@@ -405,7 +405,7 @@ const Forms = () => {
           );
         })}
       </Box>
-      <Typography pt={2} mt={1} mb={2}>
+      <Typography pt={1} mt={1} mb={1}>
         <TextField
           style={{ width: 300 }}
           label="Search Url"
@@ -419,7 +419,7 @@ const Forms = () => {
           }}
         />
       </Typography>
-      
+
       <Button
         variant="contained"
         size="small"
@@ -433,6 +433,7 @@ const Forms = () => {
 
       <Typography pt={1} mt={1}>
         <TextField
+          style={{ width: 200 }}
           label="Username"
           variant="outlined"
           size="small"
@@ -441,8 +442,9 @@ const Forms = () => {
           onChange={(e) => setUserName(e.target.value)}
         />
       </Typography>
-      <Typography pt={1} mt={1}>
+      <Typography pt={1} >
         <TextField
+          style={{ width: 200 }}
           label="Password"
           variant="outlined"
           size="small"
@@ -452,7 +454,7 @@ const Forms = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </Typography>
-      <Typography pt={2} mt={1} mb={2}>
+      <Typography pt={2} mb={1}>
         <TextField
           style={{ width: 300 }}
           label="Url"
@@ -465,21 +467,18 @@ const Forms = () => {
         />
       </Typography>
 
-      <Button 
-      variant="contained"
-      size="small"
-      onClick={handleSubmit}>
+      <Button variant="contained" size="small" onClick={handleSubmit}>
         Add New Item
       </Button>
 
       {isEncrypted ? (
-        <Typography mt={2} mb={1} variant="body2">
+        <Typography mt={1} mb={1} variant="body2">
           {" "}
           Your passwords are encrypted{" "}
         </Typography>
       ) : (
         <div>
-          <Typography mt={2} mb={1} variant="body2" >
+          <Typography mt={1} mb={1} variant="body2">
             {" "}
             Your passwords are not encrypted. If you want yo save your password
             more securely, please follow this manual{" "}
