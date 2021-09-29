@@ -324,7 +324,7 @@ const Forms = () => {
       </Typography>
       <Box
         sx={{
-          height: "25%",
+          height: "20%",
           width: "96%",
           margin: "auto",
           alignItems: "center",
@@ -405,6 +405,32 @@ const Forms = () => {
           );
         })}
       </Box>
+      <Typography pt={2} mt={1} mb={2}>
+        <TextField
+          style={{ width: 300 }}
+          label="Search Url"
+          variant="outlined"
+          size="small"
+          name="search"
+          value={searchValue}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            UpdateFilteredSubmissions(e.target.value);
+          }}
+        />
+      </Typography>
+      
+      <Button
+        variant="contained"
+        size="small"
+        onClick={() => {
+          setSearchValue("");
+          UpdateFilteredSubmissions("");
+        }}
+      >
+        Clear
+      </Button>
+
       <Typography pt={1} mt={1}>
         <TextField
           label="Username"
@@ -444,31 +470,6 @@ const Forms = () => {
       size="small"
       onClick={handleSubmit}>
         Add New Item
-      </Button>
-      <Typography pt={2} mt={1} mb={2}>
-        <TextField
-          style={{ width: 300 }}
-          label="Search Url"
-          variant="outlined"
-          size="small"
-          name="search"
-          value={searchValue}
-          onChange={(e) => {
-            setSearchValue(e.target.value);
-            UpdateFilteredSubmissions(e.target.value);
-          }}
-        />
-      </Typography>
-
-      <Button
-        variant="contained"
-        size="small"
-        onClick={() => {
-          setSearchValue("");
-          UpdateFilteredSubmissions("");
-        }}
-      >
-        Clear
       </Button>
 
       {isEncrypted ? (
