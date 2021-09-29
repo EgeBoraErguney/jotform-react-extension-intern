@@ -33,6 +33,7 @@ const Forms = () => {
   const [searchValue, setSearchValue] = useState("null");
   const [showPassword, setShowPassword] = useState([]);
   const [isEncrypted, setIsEncrypted] = useState(false);
+  const [isPressedAddButton, setIsPressedAddButton] = useState(false);
 
   useEffect(() => {
     GetFormsAtTheBeginning();
@@ -432,57 +433,70 @@ const Forms = () => {
         Clear
       </Button>
       <br />
-      <IconButton sx={{ mt: 0.5 }} onClick={() => {}}>
-        <CircleIcon sx={{ fill: "green" ,width: "50px", height: "auto" }} />
+      <IconButton
+        sx={{ mt: 0.5 }}
+        onClick={(event) => {
+          event.target.parentNode.parentNode.removeChild(
+            event.target.parentNode
+          );
+          setIsPressedAddButton(true);
+        }}
+      >
+        <CircleIcon sx={{ fill: "green", width: "50px", height: "auto" }} />
       </IconButton>
-      <Typography pt={1} mt={1}>
-        <TextField
-          style={{ width: 200 }}
-          label="Username"
-          variant="outlined"
-          size="small"
-          name="userName"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-      </Typography>
-      <Typography pt={1}>
-        <TextField
-          style={{ width: 200 }}
-          label="Password"
-          variant="outlined"
-          size="small"
-          name="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </Typography>
-      <Typography pt={2} mb={1}>
-        <TextField
-          style={{ width: 300 }}
-          label="Url"
-          variant="outlined"
-          size="small"
-          name="url"
-          disabled
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-      </Typography>
-
-      <Button variant="contained" size="small" onClick={handleSubmit}>
-        Add New Item
-      </Button>
+      {isPressedAddButton ? (
+        <>
+          <Typography pt={1} mt={1}>
+            <TextField
+              style={{ width: 200 }}
+              label="Username"
+              variant="outlined"
+              size="small"
+              name="userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </Typography>
+          <Typography pt={1}>
+            <TextField
+              style={{ width: 200 }}
+              label="Password"
+              variant="outlined"
+              size="small"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Typography>
+          <Typography pt={2} mb={1}>
+            <TextField
+              style={{ width: 300 }}
+              label="Url"
+              variant="outlined"
+              size="small"
+              name="url"
+              disabled
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+          </Typography>
+          <Button variant="contained" size="small" onClick={handleSubmit}>
+            Add New Item
+          </Button>{" "}
+        </>
+      ) : (
+        <></>
+      )}
 
       {isEncrypted ? (
-        <Typography mt={3} mb={1} variant="body2">
+        <Typography mt={1} mb={1} variant="body2">
           {" "}
           Your passwords are encrypted{" "}
         </Typography>
       ) : (
         <div>
-          <Typography mt={3} mb={1} variant="body2">
+          <Typography mt={1} mb={1} variant="body2">
             {" "}
             Your passwords are not encrypted. If you want to save your password
             more securely, please follow this manual{" "}
