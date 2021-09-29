@@ -314,7 +314,7 @@ const Forms = () => {
   return (
     <>
       <img src={logo} />
-      <Typography mt={2} mb={2} variant="h4">
+      <Typography mt={2} mb={2} variant="h5">
         Password Manager
       </Typography>
       <Typography pt={1} mt={1}>
@@ -338,7 +338,7 @@ const Forms = () => {
       </Typography>
       <Typography pt={2} mt={1} mb={2}>
         <TextField
-          style={{ width: 400 }}
+          style={{ width: 300 }}
           label="Url"
           variant="outlined"
           name="url"
@@ -353,7 +353,7 @@ const Forms = () => {
       </Button>
       <Typography pt={2} mt={1} mb={2}>
         <TextField
-          style={{ width: 400 }}
+          style={{ width: 300 }}
           label="Search Url"
           variant="outlined"
           name="search"
@@ -378,7 +378,7 @@ const Forms = () => {
       <Box
         sx={{
           height: "25%",
-          width: "60%",
+          width: "70%",
           margin: "auto",
           alignItems: "center",
         }}
