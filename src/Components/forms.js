@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import CircleIcon from "@mui/icons-material/AddCircle";
 
 const Forms = () => {
   const apiKey = localStorage.getItem("apiKey");
@@ -430,7 +431,10 @@ const Forms = () => {
       >
         Clear
       </Button>
-
+      <br />
+      <IconButton sx={{ mt: 0.5 }} onClick={() => {}}>
+        <CircleIcon sx={{ fill: "green" ,width: "50px", height: "auto" }} />
+      </IconButton>
       <Typography pt={1} mt={1}>
         <TextField
           style={{ width: 200 }}
@@ -442,7 +446,7 @@ const Forms = () => {
           onChange={(e) => setUserName(e.target.value)}
         />
       </Typography>
-      <Typography pt={1} >
+      <Typography pt={1}>
         <TextField
           style={{ width: 200 }}
           label="Password"
@@ -472,18 +476,19 @@ const Forms = () => {
       </Button>
 
       {isEncrypted ? (
-        <Typography mt={1} mb={1} variant="body2">
+        <Typography mt={3} mb={1} variant="body2">
           {" "}
           Your passwords are encrypted{" "}
         </Typography>
       ) : (
         <div>
-          <Typography mt={1} mb={1} variant="body2">
+          <Typography mt={3} mb={1} variant="body2">
             {" "}
-            Your passwords are not encrypted. If you want yo save your password
+            Your passwords are not encrypted. If you want to save your password
             more securely, please follow this manual{" "}
           </Typography>
           <Button
+            sx={{ mb: 0.5 }}
             variant="contained"
             size="small"
             onClick={() => {
