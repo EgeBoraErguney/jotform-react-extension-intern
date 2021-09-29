@@ -409,6 +409,7 @@ const Forms = () => {
         <TextField
           label="Username"
           variant="outlined"
+          size="small"
           name="userName"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
@@ -418,6 +419,7 @@ const Forms = () => {
         <TextField
           label="Password"
           variant="outlined"
+          size="small"
           name="password"
           type="password"
           value={password}
@@ -429,6 +431,7 @@ const Forms = () => {
           style={{ width: 300 }}
           label="Url"
           variant="outlined"
+          size="small"
           name="url"
           disabled
           value={url}
@@ -436,14 +439,18 @@ const Forms = () => {
         />
       </Typography>
 
-      <Button variant="contained" onClick={handleSubmit}>
-        Add
+      <Button 
+      variant="contained"
+      size="small"
+      onClick={handleSubmit}>
+        Add New Item
       </Button>
       <Typography pt={2} mt={1} mb={2}>
         <TextField
           style={{ width: 300 }}
           label="Search Url"
           variant="outlined"
+          size="small"
           name="search"
           value={searchValue}
           onChange={(e) => {
@@ -455,6 +462,7 @@ const Forms = () => {
 
       <Button
         variant="contained"
+        size="small"
         onClick={() => {
           setSearchValue("");
           UpdateFilteredSubmissions("");
@@ -464,19 +472,20 @@ const Forms = () => {
       </Button>
 
       {isEncrypted ? (
-        <Typography mt={2} mb={1}>
+        <Typography mt={2} mb={1} variant="body2">
           {" "}
           Your passwords are encrypted{" "}
         </Typography>
       ) : (
         <div>
-          <Typography mt={3} mb={2}>
+          <Typography mt={2} mb={1} variant="body2" >
             {" "}
             Your passwords are not encrypted. If you want yo save your password
             more securely, please follow this manual{" "}
           </Typography>
           <Button
             variant="contained"
+            size="small"
             onClick={() => {
               chrome.tabs.create({
                 url: "https://www.jotform.com/help/344-encrypted-forms-and-how-to-use-them/",
