@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import qs from "qs";
 import axios from "axios";
-import ReactDOM from "react-dom";
-import background from "./podowithkeys.png";
+
 
 import {
   Button,
@@ -60,14 +59,8 @@ const Login = ({ changeShow }) => {
   
   return (
     <>
-      <Box  pt={10} pb={10} sx = {{backgroundImage:"url(" + background + ")"}}>
-        <Paper
-          sx={{
-            width: "60%",
-            margin: "20px auto",
-          }}
-          elevation={3}
-        >
+      <Box  pt={2} pb={2}>
+
           <Typography variant="h5" pt={4} >
             Jotform Password Manager
           </Typography>
@@ -98,7 +91,7 @@ const Login = ({ changeShow }) => {
               login
             </Button>
           </Typography>
-        </Paper>
+        
       </Box>
     </>
   );
