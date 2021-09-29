@@ -290,16 +290,20 @@ const Forms = () => {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   function GetProperties(formId) {
     const properties = {
       method: "get",
-      url: "https://api.jotform.com/form/" + formId + "/properties?apiKey=" + apiKey,
+      url:
+        "https://api.jotform.com/form/" +
+        formId +
+        "/properties?apiKey=" +
+        apiKey,
     };
     axios(properties)
       .then((resp) => {
-        console.log(resp.data.content.isEncrypted);   
+        console.log(resp.data.content.isEncrypted);
         if (resp.data.content.isEncrypted === "Yes") {
           setIsEncrypted(true);
         } else {
@@ -309,14 +313,98 @@ const Forms = () => {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
 
   return (
     <>
       <img src={logo} />
-      <Typography mt={2} mb={2} variant="h5">
+
+      <Typography mt={1} mb={1} variant="h5">
         Password Manager
       </Typography>
+      <Box
+        sx={{
+          height: "25%",
+          width: "96%",
+          margin: "auto",
+          alignItems: "center",
+        }}
+      >
+        {filteredSubmissions.map((item) => {
+          return (
+            <Card key={item.id} sx={{ mt: 1, p: 0 }}>
+              <CardContent
+                sx={{
+                  m: 0,
+                  p: 1,
+                  "&:last-child": {
+                    paddingBottom: 1,
+                  },
+                }}
+              >
+                <IconButton
+                  onClick={() => deleteSubmission(item.id)}
+                  sx={{ float: "right" }}
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+                <IconButton
+                  onClick={() => {
+                    chrome.tabs.create({
+                      url: "https://www.jotform.com/tables/" + formId,
+                    });
+                  }}
+                  sx={{ float: "right" }}
+                >
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton
+                  sx={{ float: "right" }}
+                  onClick={() => {
+                    if (showPassword.indexOf(item.id) === -1) {
+                      setShowPassword([...showPassword, item.id]);
+                    } else {
+                      var array = [...showPassword];
+                      array.splice(showPassword.indexOf(item.id), 1);
+                      setShowPassword(array);
+                    }
+                  }}
+                >
+                  {showPassword.indexOf(item.id) !== -1 ? (
+                    <VisibilityOffIcon fontSize="small" />
+                  ) : (
+                    <VisibilityIcon fontSize="small" />
+                  )}
+                </IconButton>
+                <Button
+                  onClick={() =>
+                    fillFormInputs(
+                      item.answers[1].answer,
+                      item.answers[2].answer
+                    )
+                  }
+                  variant="primary"
+                  sx={{ float: "right", p: 1 }}
+                >
+                  Fill
+                </Button>
+                <Typography mt={1} variant="subtitle2">
+                  {item.answers[3].answer}{" "}
+                </Typography>
+                <Typography variant="caption">
+                  username: {item.answers[1].answer}{" "}
+                </Typography>
+                <Typography variant="caption">
+                  password:{" "}
+                  {showPassword.indexOf(item.id) !== -1
+                    ? item.answers[2].answer
+                    : "***"}{" "}
+                </Typography>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </Box>
       <Typography pt={1} mt={1}>
         <TextField
           label="Username"
@@ -375,96 +463,30 @@ const Forms = () => {
         Clear
       </Button>
 
-      <Box
-        sx={{
-          height: "25%",
-          width: "70%",
-          margin: "auto",
-          alignItems: "center",
-        }}
-      >
-        {filteredSubmissions.map((item) => {
-          return (
-            <Card key={item.id} sx={{ mt: 1 }}>
-              <CardContent>
-                <IconButton
-                  onClick={() => deleteSubmission(item.id)}
-                  sx={{ float: "right" }}
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() => {
-                    chrome.tabs.create({
-                      url: "https://www.jotform.com/tables/" + formId,
-                    });
-                  }}
-                  sx={{ float: "right" }}
-                >
-                  <EditIcon fontSize="small" />
-                </IconButton>
-                <IconButton
-                  sx={{ float: "right" }}
-                  onClick={() => {
-                    if (showPassword.indexOf(item.id) === -1) {
-                      setShowPassword([...showPassword, item.id]);
-                    } else {
-                      var array = [...showPassword];
-                      array.splice(showPassword.indexOf(item.id), 1);
-                      setShowPassword(array);
-                    }
-                  }}
-                >
-                  {showPassword.indexOf(item.id) !== -1 ? (
-                    <VisibilityOffIcon fontSize="small"/>
-                  ) : (
-                    <VisibilityIcon fontSize="small"/>
-                  )}
-                </IconButton>
-                <Button
-                  onClick={() =>
-                    fillFormInputs(
-                      item.answers[1].answer,
-                      item.answers[2].answer
-                    )
-                  }
-                  variant="primary"
-                  sx={{ float: "right" }}
-                >
-                  Fill
-                </Button>
-                <Typography mt={5} mb={1} variant="subtitle2">
-                  {item.answers[3].answer}{" "}
-                </Typography>
-                <Typography variant="caption" >
-                  username: {item.answers[1].answer}{" "}
-                </Typography>
-                <Typography variant="caption" >
-                  password: {showPassword.indexOf(item.id) !== -1 ? item.answers[2].answer : "***"}{" "}
-                </Typography>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </Box>
-
-      {isEncrypted ?  <Typography mt={2} mb={1}> Your passwords are encrypted </Typography>  : 
-      <div>
-        <Typography mt={3} mb={2}> Your passwords are not encrypted. If you want yo save your password more securely, please follow this manual </Typography>
-        <Button 
-
-        variant="contained"
-        onClick = {() => {
-          chrome.tabs.create({
-            url: "https://www.jotform.com/help/344-encrypted-forms-and-how-to-use-them/"
-          })
-        }}
-       >
-        How to Encrypt
-        </Button>
-      </div>
-      }
-
+      {isEncrypted ? (
+        <Typography mt={2} mb={1}>
+          {" "}
+          Your passwords are encrypted{" "}
+        </Typography>
+      ) : (
+        <div>
+          <Typography mt={3} mb={2}>
+            {" "}
+            Your passwords are not encrypted. If you want yo save your password
+            more securely, please follow this manual{" "}
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={() => {
+              chrome.tabs.create({
+                url: "https://www.jotform.com/help/344-encrypted-forms-and-how-to-use-them/",
+              });
+            }}
+          >
+            How to Encrypt
+          </Button>
+        </div>
+      )}
     </>
   );
 };
