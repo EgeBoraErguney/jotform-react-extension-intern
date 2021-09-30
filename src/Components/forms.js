@@ -321,7 +321,8 @@ const Forms = () => {
 
   return (
     <>
-      <img src={logo} />
+    
+      <img  src={logo} />
 
       <Typography mt={1} mb={1} variant="h5">
         Password Manager
@@ -452,7 +453,7 @@ const Forms = () => {
         <>
           <Typography pt={1} mt={1}>
             <TextField
-              style={{ width: 200 }}
+              style={{ width: 300 }}
               label="Username"
               variant="outlined"
               size="small"
@@ -463,7 +464,7 @@ const Forms = () => {
           </Typography>
           <Typography pt={1}>
             <TextField
-              style={{ width: 200 }}
+              style={{ width: 300 }}
               label="Password"
               variant="outlined"
               size="small"
@@ -527,7 +528,7 @@ const Forms = () => {
             )) :
             <></> 
       }
-
+    
     </>
   );
 };
