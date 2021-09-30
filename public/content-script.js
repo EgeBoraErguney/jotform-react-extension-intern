@@ -158,7 +158,7 @@ function openPopUp() {
 
   const iframe = document.getElementById("iframe_jotform_extension");
   iframe.style.cssText =
-    "z-index:16777271; position:fixed; right:30px; width:200px; height:200px ";
+    "z-index:16777271; position:fixed; right:30px; width:200px; height:200px; border-width:0px ";
   iframe.src = chrome.extension.getURL("pop-up.html");
   var data = getFormData();
   chrome.runtime.sendMessage(
