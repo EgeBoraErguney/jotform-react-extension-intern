@@ -21,6 +21,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CircleIcon from "@mui/icons-material/AddCircle";
+import HttpsRoundedIcon from '@mui/icons-material/HttpsRounded';
 
 const Forms = () => {
   const apiKey = localStorage.getItem("apiKey");
@@ -34,6 +35,7 @@ const Forms = () => {
   const [showPassword, setShowPassword] = useState([]);
   const [isEncrypted, setIsEncrypted] = useState(false);
   const [isPressedAddButton, setIsPressedAddButton] = useState(false);
+  const [showEncryption, setShowEncryption] = useState(false);
 
   useEffect(() => {
     GetFormsAtTheBeginning();
@@ -443,6 +445,8 @@ const Forms = () => {
         }}
       >
         <CircleIcon sx={{ fill: "green", width: "50px", height: "auto" }} />
+        
+
       </IconButton>
       {isPressedAddButton ? (
         <>
@@ -489,32 +493,41 @@ const Forms = () => {
         <></>
       )}
 
-      {isEncrypted ? (
-        <Typography mt={1} mb={1} variant="body2">
-          {" "}
-          Your passwords are encrypted{" "}
-        </Typography>
-      ) : (
-        <div>
-          <Typography mt={1} mb={1} variant="body2">
-            {" "}
-            Your passwords are not encrypted. If you want to save your password
-            more securely, please follow this manual{" "}
-          </Typography>
-          <Button
-            sx={{ mb: 0.5 }}
-            variant="contained"
-            size="small"
-            onClick={() => {
-              chrome.tabs.create({
-                url: "https://www.jotform.com/help/344-encrypted-forms-and-how-to-use-them/",
-              });
-            }}
-          >
-            How to Encrypt
-          </Button>
-        </div>
-      )}
+      <IconButton sx={{ mt: 0.5 }}>  
+        <HttpsRoundedIcon sx={{ width: "50px", height: "auto" }}  onClick = {() => setShowEncryption(!showEncryption)}/>
+      </IconButton>
+      
+
+      {showEncryption ?
+            (isEncrypted ? (
+              <Typography mt={2} mb={1} variant="body2">
+                {" "}
+                Your passwords are encrypted{" "}
+              </Typography>
+            ) : (
+              <div>
+                <Typography mt={2} mb={1} variant="body2">
+                  {" "}
+                  Your passwords are not encrypted. If you want to save your password
+                  more securely, please follow this manual{" "}
+                </Typography>
+                <Button
+                  sx={{ mb: 0.5 }}
+                  variant="contained"
+                  size="small"
+                  onClick={() => {
+                    chrome.tabs.create({
+                      url: "https://www.jotform.com/help/344-encrypted-forms-and-how-to-use-them/",
+                    });
+                  }}
+                >
+                  How to Encrypt
+                </Button>
+              </div>
+            )) :
+            <></> 
+      }
+
     </>
   );
 };
