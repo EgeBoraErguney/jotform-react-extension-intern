@@ -321,11 +321,8 @@ const Forms = () => {
 
   return (
     <>
-      <img src={logo} />
+      <img  src={logo} />
 
-      <Typography mt={1} mb={1} variant="h5">
-        Password Manager
-      </Typography>
       <Box
         sx={{
           height: "20%",
@@ -452,7 +449,7 @@ const Forms = () => {
         <>
           <Typography pt={1} mt={1}>
             <TextField
-              style={{ width: 200 }}
+              style={{ width: 300 }}
               label="Username"
               variant="outlined"
               size="small"
@@ -463,7 +460,7 @@ const Forms = () => {
           </Typography>
           <Typography pt={1}>
             <TextField
-              style={{ width: 200 }}
+              style={{ width: 300 }}
               label="Password"
               variant="outlined"
               size="small"
@@ -494,19 +491,20 @@ const Forms = () => {
       )}
 
       <IconButton sx={{ mt: 0.5 }}>  
-        <HttpsRoundedIcon sx={{ width: "50px", height: "auto" }}  onClick = {() => setShowEncryption(!showEncryption)}/>
+        {isEncrypted ? <HttpsRoundedIcon sx={{ fill: "green", width: "50px", height: "auto" }}  onClick = {() => setShowEncryption(!showEncryption)}/> :
+                      <HttpsRoundedIcon sx={{ width: "50px", height: "auto" }}  onClick = {() => setShowEncryption(!showEncryption)}/>}
       </IconButton>
       
 
       {showEncryption ?
             (isEncrypted ? (
-              <Typography mt={2} mb={1} variant="body2">
+              <Typography mt={1} mb={1} variant="body2">
                 {" "}
                 Your passwords are encrypted{" "}
               </Typography>
             ) : (
               <div>
-                <Typography mt={2} mb={1} variant="body2">
+                <Typography mt={1} mb={1} variant="body2">
                   {" "}
                   Your passwords are not encrypted. If you want to save your password
                   more securely, please follow this manual{" "}
@@ -527,7 +525,7 @@ const Forms = () => {
             )) :
             <></> 
       }
-
+    
     </>
   );
 };
