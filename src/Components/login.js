@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import qs from "qs";
 import axios from "axios";
-
+import logo from "./jotform-logo.png";
 
 import {
   Button,
@@ -59,15 +59,16 @@ const Login = ({ changeShow }) => {
   
   return (
     <>
-      <Box  pt={2} pb={2}>
+      <img  src={logo} />
+      <Box  pt={1} pb={1}>
 
-          <Typography variant="h5" pt={4} >
+          <Typography variant="h5" pt={1} >
             Jotform Password Manager
           </Typography>
-          <Typography variant="h6" pt={4} mt={2}>
+          <Typography variant="h6" pt={1} mt={1}>
             Please sign in to your Jotform account
           </Typography>
-          <Typography pt={2} mt={2}>
+          <Typography pt={1} mt={1}>
             <TextField
               label="Username"
               variant="outlined"
@@ -76,7 +77,7 @@ const Login = ({ changeShow }) => {
               onChange={(e) => handleChange(e)}
             />
           </Typography>
-          <Typography mt={2}>
+          <Typography mt={1}>
             <TextField
               label="Password"
               variant="outlined"
@@ -86,7 +87,7 @@ const Login = ({ changeShow }) => {
               onChange={(e) => handleChange(e)}
             />
           </Typography>
-          <Typography pb={6} mt={2}>
+          <Typography pb={1} mt={1}>
             <Button variant="contained" onClick={loginFunction}>
               login
             </Button>
